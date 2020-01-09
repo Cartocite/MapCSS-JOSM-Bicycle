@@ -1,0 +1,749 @@
+/*
+Derived from Main JOSM map paint style.
+Documentation of MapCSS format:
+https://josm.openstreetmap.de/wiki/Help/Styles/MapCSSImplementation
+Very commented (in french for the moment) to facilitate understanding and learning
+*/
+
+/*
+
+*/
+
+/**************************/
+/* DESCRIPTIONS GÉNÉRALES */
+/**************************/
+/*
+==== Objectifs ====
+
+Expliciter les aménagements cyclable par un rendu en tentant de couvrir
+l'ensemble des cas.
+
+==== Layers & Latéralisation ====
+
+Le rendu a pour objectif de traduire la latéralisation des aménagements. Pour cela il est nécessaire de tenir compte de plusieurs choses dans les sélecteurs :
+* Le coté de circulation local exploitable grâce à la pseudo classe ":righthandtraffic" et le côté implicite de l'aménagement que cela implique en l'absence de namesapce cycleway:left/right
+* le côté explicite de l'aménagement grâce aux namespace cycleway:left/right
+* le sens de circulation explicité avec des tags tels que cycleway:left/right:oneway=-1
+
+Les Layers permettent de décrire plusieurs couches de styles. Dit autrements, les layers permettent de ne pas remplacer un style lorsque
+plusieurs selectors retournent les mêmes objets. C'est le cas pour la
+représentation des aménagements cyclables qui sont décrit à partir des
+way qui décrivent les routes. De même les aménagements lorsqu'ils sont
+différents à gauche et à droite
+Le paramètre "object-z-index:" permet de régler l'ordre d'affichage de ces couches de styles.
+
+Il existe un couche de style par défaut et les paramètres relatifs le sont par rapport à cette couche ; par exemple "width: +2" pour une couche autre que defaut sera d'une épaisseur de l'objet de la couche par défaut +2.
+
+::cycleway_left Pour décrire ce qui est à gauche (obvious)
+::cycleway_right Pour décrire ce qui est à droite (obvi...)
+::cycleway_both Pour décrire ce qui est des deux côtés (ob...)
+::arrows Pour décrire le caractères DSC ou à sens unique lorsque ce
+n'est pas évidant.
+
+==== Factorisation et organisation ====
+
+Utilisation des classes
+
+*/
+
+/************************************************************************/
+/*                                                                      */
+/*                   DÉBUT DE LA FEUILLE DE STYLE                       */
+/*                                                                      */
+/************************************************************************/
+
+
+/*
+Métadonnées de la feuille de style
+Toutes les icones est dans le dossier 'icones' et leurs chemins sont donc en relatifs.
+*/
+
+meta
+{
+    title: "Cycleway";
+    icon: "icons/Traffic_sign_C115.svg";
+    description: "Focus display on cycleway et cycle POI";
+    version: "1";
+    author: "Charles MILLET – Carto’Cité";
+    link: "https://github.com/Cartocite";
+}
+
+
+
+
+/************/
+/* SETTINGS */
+/************/
+
+/* Il est possible d'activer/désactiver des paramètres par un clic droit
+Ces paramètres sont ensuite introduits dans les selecteurs et conditionne ainsi ces sélecteurs à l'activation du paramètre
+*/
+
+/* Itinéraires cyclables */
+
+setting::bicycle_route {
+    type: boolean;
+    label: tr("Display bicycle routes");
+    icon: "icons/Traffic_sign_C115.svg";
+    default: false;
+}
+
+
+
+/*
+Permet d'afficher/masquer les panneaux
+cf. * Panneaux *
+*/
+
+setting::traffic_signs {
+  type: boolean;
+  label: tr("Display traffic signs");
+  default: true;
+}
+
+/******************************/
+/* MASQUER LES ANCIENS STYLES */
+/******************************/
+
+
+setting::old_style {
+  type: boolean;
+  label: tr("Masquer les anciens styles");
+  default: false;
+}
+
+way[setting("old_style")]::core_cycleway {
+    opacity: 0.0;
+}
+way[setting("old_style")]::core_cycleway2 {
+    opacity: 0.0;
+}
+
+
+
+
+/*******************/
+/* INITIALISATIONS */
+/*******************/
+
+/* Couleurs */
+
+way {
+	/* color: JOSM_pref("clr.mappaint.Cycleway.bicycle",#ff00ff);*/ /* Je ne suis pas sûr si ça surcharge la valeur des préférences de JOSM */
+}
+
+/*JOSM_pref(clr.mappaint.Cycleway.bicycle,#2200ff)*/
+
+/*************/
+/* CYCLEWAYS */
+/*************/
+
+/* Peu importe qu'elle soit partagée avec les piétons dans un premier temps */
+
+way[highway=cycleway] {
+    width: 6;
+    color: bicycle#ff00ff;
+    set cycleway;
+}
+
+
+
+/* Aménagements équivalent aux pistes cyclables et accessibles aux piétons */
+
+way[highway=path][bicycle=designated][foot=designated],
+way[highway=path][bicycle=official][foot=official],
+way[highway=cycleway][foot=designated] {
+    width: 6;
+    color: bicycle#ff00ff;
+    dashes: 14,14;
+    dashes-background-color: foot#00ff00;
+    set cyclecway;
+}
+
+way[highway=footway][bicycle=designated] {
+    width: 1;
+    color: foot#00ff00;
+    dashes: 14,14;
+    dashes-background-color:  bicycle#ff00ff;
+}
+
+/* Aménagements cyclables */
+
+way[highway=footway][bicycle=yes],
+way[highway=path][bicycle=yes][foot=designated],
+way[highway=path][bicycle=yes][foot=official] {
+    width: 6;
+    color: foot#00ff00;
+    dashes: 21,7;
+    dashes-background-color:  bicycle#ff00ff;
+}
+
+
+/* Pistes cyclables et équivalent accessibles aux piétons */
+
+way[highway=cycleway][foot=yes],
+way[highway=path][bicycle=designated][foot=yes],
+way[highway=path][bicycle=official][foot=yes] {
+    width: 6;
+    color:  bicycle#ff00ff;
+    dashes: 21,7;
+    dashes-background-color: foot#00ff00;
+}
+
+
+/* Halo autour du texte des pistes cyclables */
+
+way[highway=cycleway] {
+    text: auto;
+    text-color: white;
+    font-size: 14;
+    text-position: line;
+    text-halo-opacity: 1;
+    text-halo-radius: 1.8;
+}
+way[highway=cycleway],
+way[highway=path][bicycle=designated] {
+    text-halo-color:  bicycle#ff00ff;
+}
+
+
+
+/*********/
+/* LANES */
+/*********/
+
+/* LATÉRALISATION DES LANES DANS DES CLASSES */
+
+/* Ici on ne fait que définir des classes donc, à priori, mais il faut quand même se soucier des layers */
+
+
+/* Latéralisation explicite */
+/*
+La latéralisation est explicite grâce aux namespaces left/right ou au
+fait que les bandes sont des 2 côtés de la voie
+*/
+
+/* Côté gauche explicite */
+
+way[cycleway:left=lane]::left_lanes,
+way[cycleway:left=opposite_lane]::left_lanes {
+    set laneLeft;
+}
+
+/* Côté droit explicite */
+
+way[cycleway:right=lane]::right_lanes,
+way[cycleway:right=opposite_lane]::right_lanes {
+    set laneRight;
+}
+
+/* Des deux côtés explicite */
+/*
+Les sélecteur sont doublés pour être envoyés vers les 2 couches
+gauche et droite et les 2 classes.
+*/
+way[oneway=no][cycleway=lane]::left_lanes,
+way[!oneway][cycleway=lane]::left_lanes {
+    set laneLeft;
+}
+way[oneway=no][cycleway=lane]::right_lanes,
+way[!oneway][cycleway=lane]::right_lanes {
+    set laneRight;
+}
+
+
+/* Latéralisation implicite */
+/*
+La latéralisation dépend du côté de circulation qui est
+explicité grâce à la pseudo classe ":righthandtraffic" qui est vrai
+si les ways sont dans une zone de circulation à droite et grâce à la
+précision ou non du "opposite_".
+*/
+
+/* Côté droit implicite dans les zones de circulation à droite (cas général) */
+
+way[oneway?][cycleway=lane]:righthandtraffic::right_lanes {
+    set laneRight;
+}
+
+/* Côté droit implicite dans les zones de circulation à droite (cas particulier avec oneway=-1) */
+
+way[oneway=-1][cycleway=opposite_lane]:righthandtraffic::right_lanes {
+    set laneRight;
+}
+
+/* Côté gauche implicite dans les zones de circulation à droite (cas général) */
+
+way[oneway?][cycleway=opposite_lane]:righthandtraffic::left_lanes {
+    set laneLeft;
+}
+
+/* Côté gauche implicite dans les zones de circulation à droite (cas particulier avec oneway=-1) */
+
+way[oneway=-1][cycleway=lane]:righthandtraffic::left_lanes {
+    set laneLeft;
+}
+
+/* Côté gauche implicite dans les zones de circulation à gauche (car pas à droite du fait de "!.righthandtr") */
+
+way[oneway?][cycleway=lane]!:righthandtraffic::left_lanes,
+way[oneway=-1][cycleway=opposite_lane]!:righthandtraffic::left_lanes {
+    set laneLeft;
+}
+
+/* Côté droit implicite dans les zones de circulation à gauche (car pas à droite du fait de "!:righthandtraffic") */
+
+way[oneway?][cycleway=opposite_lane]!:righthandtraffic::right_lanes,
+way[oneway=-1][cycleway=lane]!:righthandtraffic::right_lanes {
+    set laneRight;
+}
+
+
+/* Bandes bidirectionnelles */
+/* Cas particulier de bandes cyclables à double sens d'un seul côté de
+la voie */
+
+way[cycleway:left=lane][oneway:bicycle=no]::left_lanes_double,
+way[cycleway:left=lane][cycleway:left:oneway=no]::left_lanes_double {
+	set laneLeftDouble
+}
+way[cycleway:right=lane][oneway:bicycle=no]::right_lanes_double,
+way[cycleway:right=lane][cycleway:right:oneway=no]::right_lanes_double {
+	set laneRightDouble
+}
+
+
+
+/* RENDU DES LANES À PARTIR DE LEURS CLASSES */
+
+/* Ici on va réaliser le rendu. On a bien distinguer ce qui était des bandes cyclables, quand il y en a une à gauche et quand il y en a une à droite */
+
+
+/* Couleur et épaisseur et tirets des lanes */
+
+way.laneLeft::left_lanes {
+    width: 5;
+    color: bicycle#ff00ff;
+    dashes: 10, 20;
+}
+
+way.laneLeftDouble::left_lanes_double {
+    width: 3;
+    color: bicycle#ff00ff;
+    dashes: 10, 20;
+}
+
+way.laneRight::right_lanes {
+    width: 5;
+    color: bicycle#ff00ff;
+    dashes: 10, 20;
+}
+
+way.laneRightDouble::right_lanes_double {
+    width: 3;
+    color: bicycle#ff00ff;
+    dashes: 10, 20;
+}
+
+/* Décalage des lanes gauches */
+
+way.laneLeft::left_lanes {
+    offset: 10;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+way.laneLeftDouble::left_lanes_double {
+    offset: 20;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+/* Décalage des lanes droites */
+
+way.laneRight::right_lanes {
+    offset: -10;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+way.laneRightDouble::right_lanes_double {
+    offset: -20;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+
+
+
+/**********/
+/* TRACKS */
+/**********/
+
+/* LATÉRALISATION DES TRACKS DANS DES CLASSES */
+
+/* Ici on ne fait que définir des classes donc, mais il faut quand même se soucier des layers */
+
+
+/* Latéralisation explicite */
+/*
+La latéralisation est explicite grâce aux namespaces left/right ou au
+fait que les bandes sont des 2 côtés de la voie
+*/
+
+/* Côté gauche explicite */
+
+way[cycleway:left=track]::left_tracks,
+way[cycleway:left=opposite_track]::left_tracks {
+    set trackLeft;
+}
+
+/* Côté droit explicite */
+
+way[cycleway:right=track]::right_tracks,
+way[cycleway:right=opposite_track]::right_tracks {
+    set trackRight;
+}
+
+/* Des deux côtés explicite */
+/*
+Les sélecteur sont doublés pour être envoyés vers les 2 couches
+gauche et droite et les 2 classes.
+*/
+way[oneway=no][cycleway=track]::left_tracks,
+way[!oneway][cycleway=track]::left_tracks {
+    set trackLeft;
+}
+way[oneway=no][cycleway=track]::right_tracks,
+way[!oneway][cycleway=track]::right_tracks {
+    set trackRight;
+}
+
+
+/* Latéralisation implicite */
+/*
+La latéralisation dépend du côté de circulation qui est
+explicité grâce à la pseudo classe ":righthandtraffic" qui est vrai
+si les ways sont dans une zone de circulation à droite et grâce à la
+précision ou non du "opposite_".
+*/
+
+/* Côté droit implicite dans les zones de circulation à droite (cas général) */
+
+way[oneway?][cycleway=track]:righthandtraffic::right_tracks {
+    set trackRight;
+}
+
+/* Côté droit implicite dans les zones de circulation à droite (cas particulier avec oneway=-1) */
+
+way[oneway=-1][cycleway=opposite_track]:righthandtraffic::right_tracks {
+    set trackRight;
+}
+
+/* Côté gauche implicite dans les zones de circulation à droite (cas général) */
+
+way[oneway?][cycleway=opposite_track]:righthandtraffic::left_tracks {
+    set trackLeft;
+}
+
+/* Côté gauche implicite dans les zones de circulation à droite (cas particulier avec oneway=-1) */
+
+way[oneway=-1][cycleway=track]:righthandtraffic::left_tracks {
+    set trackLeft;
+}
+
+/* Côté gauche implicite dans les zones de circulation à gauche (car pas à droite du fait de "!.righthandtr") */
+
+way[oneway?][cycleway=track]!:righthandtraffic::left_tracks,
+way[oneway=-1][cycleway=opposite_track]!:righthandtraffic::left_tracks {
+    set trackLeft;
+}
+
+/* Côté droit implicite dans les zones de circulation à gauche (car pas à droite du fait de "!:righthandtraffic") */
+
+way[oneway?][cycleway=opposite_track]!:righthandtraffic::right_tracks,
+way[oneway=-1][cycleway=track]!:righthandtraffic::right_tracks {
+    set trackRight;
+}
+
+
+/* Bandes bidirectionnelles */
+/* Cas particulier de bandes cyclables à double sens d'un seul côté de
+la voie */
+
+way[cycleway:left=track][oneway:bicycle=no]::left_tracks_double,
+way[cycleway:left=track][cycleway:left:oneway=no]::left_tracks_double {
+	set trackLeftDouble
+}
+way[cycleway:right=track][oneway:bicycle=no]::right_tracks_double,
+way[cycleway:right=track][cycleway:right:oneway=no]::right_tracks_double {
+	set trackRightDouble
+}
+
+
+/* RENDU DES TRACKS À PARTIR DE LEURS CLASSES */
+
+/* Ici on va réaliser le rendu. On a bien distinguer ce qui était des bandes cyclables, quand il y en a une à gauche et quand il y en a une à droite */
+
+
+/* Couleur et épaisseur et tirets des tracks */
+
+way.trackLeft::left_tracks {
+    width: 5;
+    color: bicycle#ff00ff;
+}
+
+way.trackLeftDouble::left_tracks_double {
+    width: 3;
+    color: bicycle#ff00ff;
+}
+
+way.trackRight::right_tracks {
+    width: 5;
+    color: bicycle#ff00ff;
+}
+
+way.trackRightDouble::right_tracks_double {
+    width: 3;
+    color: bicycle#ff00ff;
+}
+
+/* Décalage des tracks gauches */
+
+way.trackLeft::left_tracks {
+    offset: 10;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+way.trackLeftDouble::left_tracks_double {
+    offset: 20;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+/* Décalage des tracks droites */
+
+way.trackRight::right_tracks {
+    offset: -10;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+way.trackRightDouble::right_tracks_double {
+    offset: -20;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+
+
+
+/****************/
+/* SHARE BUSWAY */
+/****************/
+
+/*
+Certaines routes de services décrivent des voies bus et sont accessibles
+aux vélos mais sont décrites de manières assez diverses. CF TODO
+*/
+
+/* Voies partagées avec les bus à droite explicites et impicites */
+
+
+way|z17-[busway:right=lane][cycleway:right=share_busway]::share_busway_right,
+way|z17-[oneway?][busway=lane][cycleway=share_busway]:righthandtraffic::share_busway_right,
+way|z17-[oneway?][busway=lane][cycleway:right=share_busway]::share_busway_right,
+way|z17-[oneway?][busway=track][cycleway:right=share_busway]:righthandtraffic::share_busway_right,
+way|z17-[access=no][bicycle=yes][highway=service][psv=yes]:righthandtraffic::share_busway_right,
+way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::share_busway_right {
+    width: 5;
+    color: bicycle#ff00ff;
+    dashes: 1, 15;
+    linecap: round;
+    offset: (prop("width", "default") / 2) - 16;
+    major-z-index: 2.1;
+    modifier: true;	
+}
+
+/* Voies partagées avec les bus à gauches explicites et impicites */
+
+way|z17-[busway:left=opposite_lane][cycleway:left=opposite_share_busway]::share_busway_left,
+way|z17-[cycleway:left=opposite_share_busway]::share_busway_left,
+way|z17-[access=no][bicycle=yes][highway=service][psv=yes]!:righthandtraffic::share_busway_left,
+way|z17-[busway:left=lane][cycleway:left=share_busway]::share_busway_left {
+    width: 5;
+    color: bicycle#ff00ff;
+    dashes: 1, 15;
+    linecap: round;
+    offset: (prop("width", "default") / 2) + 16;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+/* Voies partagées avec les bus des 2 côtés explicites et impicites */
+/* TODO */
+
+/*
+####### CAS À INCLURE ######
+TODO
+https://www.openstreetmap.org/way/659754522
+bicycle=yes
+highway=service
+lanes=1
+motor_vehicle=no
+name=Boulevard Saint-Germain
+oneway=yes
+psv=yes
+
+https://www.openstreetmap.org/way/173292034
+bicycle=designated
+cycleway=share_busway
+highway=service
+motor_vehicle=no
+oneway=yes
+psv=yes
+source=cadastre-dgi-fr source : Direction Générale des Impôts - Cadastre. Mise à jour : 2010
+*/
+
+
+/****************/
+/* SHARED LANES */
+/****************/
+
+/* set shared_lane_left */
+/* set shared_lane_right */
+
+/* prepare shared_lane */
+    
+way[oneway?][cycleway=shared_lane]:righthandtraffic::shared_lane {
+    set shared_laneRight;
+    set righthandtr;
+}
+way[oneway=-1][cycleway=shared_lane]:righthandtraffic::shared_lane {
+    set shared_laneLeft;
+    set righthandtr;
+}
+way[oneway?][cycleway=shared_lane]!.righthandtr::shared_lane {
+    set shared_laneLeft;
+}
+way[oneway=-1][cycleway=shared_lane]!.righthandtr::shared_lane {
+    set shared_laneRight;
+}
+way[cycleway:left=shared_lane]::shared_lane {
+    set shared_laneLeft;
+}
+way[cycleway:right=shared_lane]::shared_lane {
+    set shared_laneRight;
+}
+way[oneway=no][cycleway=shared_lane]::shared_lane,
+way[!oneway][cycleway=shared_lane]::shared_lane {
+    set shared_laneLeft;
+    set shared_laneRight;
+}
+
+
+/* render shared_lane */
+
+way.shared_laneRight::shared_lane {
+    width: 4;
+    color: bicycle#ff00ff;
+    dashes: 5, 15;
+    offset: 0 - (prop("width", "default") / 2) - 3;
+    major-z-index: 2.1;
+    modifier: true;
+}
+way[prop("shared_laneLeft","core_cycleway")]::shared_lane {
+    width: 4;
+    color: bicycle#ff00ff;
+    dashes: 6, 3;
+    offset: (prop("width", "default") / 2) + 3;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+
+
+
+/************/
+/* OPPOSITE */
+/************/
+
+/* Ajout d'une flèche en sens inverse */
+/* TODO
+ * Gestion du oneway=-1
+ */
+
+/* Opposites gauches explicites et impicites */
+
+way|z17-[busway:left=opposite_lane][cycleway:left=opposite_share_busway]::arrows,
+way|z17-[cycleway=opposite][oneway][oneway!=no]:righthandtraffic::arrows,
+way|z17-[cycleway:left=opposite][oneway][oneway!=no]::arrows,
+way|z17-[cycleway=opposite_lane][oneway][oneway!=no]:righthandtraffic::arrows,
+way|z17-[cycleway=opposite_track][oneway][oneway!=no]:righthandtraffic::arrows,
+way|z17-[cycleway:left=opposite_lane][oneway][oneway!=no]::arrows,
+way|z17-[oneway][oneway!=no][oneway:bicycle=no][cycleway!=opposite][cycleway:left!=opposite]:righthandtraffic::arrows,
+way|z17-[cycleway:left=opposite_share_busway]::arrows,
+way|z17-[cycleway:left=opposite_track][oneway][oneway!=no]::arrows
+{
+    repeat-image: data:image/svg+xml,<svg width='16px' height='10px'><polygon points="0,5 15,0 15,10" style="fill:black;stroke:#ff00ff;stroke-width:2" /></svg>;
+    repeat-image-width: 20;
+	repeat-image-spacing: 40;
+	repeat-image-offset: 11;
+	repeat-image-phase: 5;
+	major-z-index: 3.1;
+}
+
+/* Opposites droits explicites et impicites */
+
+way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::arrows,
+way|z17-[cycleway=opposite][oneway][oneway!=no]!:righthandtraffic::arrows,
+way|z17-[cycleway:right=opposite][oneway][oneway!=no]::arrows,
+way|z17-[cycleway=opposite_lane][oneway][oneway!=no]!:righthandtraffic::arrows,
+way|z17-[cycleway=opposite_track][oneway][oneway!=no]!:righthandtraffic::arrows,
+way|z17-[cycleway:right=opposite_lane][oneway][oneway!=no]::arrows,
+way|z17-[oneway][oneway!=no][oneway:bicycle=no][cycleway!=opposite][cycleway:right!=opposite]!:righthandtraffic::arrows,
+way|z17-[cycleway:right=opposite_share_busway]::arrows,
+way|z17-[cycleway:right=opposite_track][oneway][oneway!=no]::arrows
+{
+    repeat-image: data:image/svg+xml,<svg width='16px' height='10px'><polygon points="0,5 15,0 15,10" style="fill:black;stroke:#ff00ff;stroke-width:2" /></svg>;
+    repeat-image-width: 20;
+	repeat-image-spacing: 40;
+	repeat-image-offset: -11;
+	repeat-image-phase: 5;
+	major-z-index: 3.1;
+}
+
+
+
+
+/***************/
+/* ITINÉRAIRES */
+/***************/
+
+/*
+Il s'agit d'une simple utilisation des childs d'une relation grace à ">"
+*/
+
+relation[type=route][route=bicycle] > way[setting("bicycle_route")]::route {
+    width: +20; 
+    color: #ff00ffff;
+    opacity:0.5;
+    object-z-index:1.0; 
+}
+
+
+/************/
+/* PANNEAUX */
+/************/
+
+node[traffic_sign="FR:C115"][setting("traffic_signs")],
+way[traffic_sign="FR:C115"] > node[setting("traffic_signs")]::traffic_signs {
+    icon-image: "icons/Traffic_sign_C115.svg";
+    icon-width: 18;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:2.0;
+    modifier:true;
+}
+
