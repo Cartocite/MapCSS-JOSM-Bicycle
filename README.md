@@ -1,2 +1,2 @@
 # MapCSS-JOSM-Bicyle
-Bicycle infrastructure rendering
+Bicycle infrastructure rendering for JOSM
