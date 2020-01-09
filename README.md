@@ -1,4 +1,4 @@
-# MapCSS-JOSM-Bicyle
+# MapCSS-JOSM-Bicycle
 Bicycle infrastructure rendering for JOSM. Work in progress.
 
 ## Usage
