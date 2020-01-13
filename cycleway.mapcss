@@ -544,6 +544,7 @@ way.trackRightDouble::right_tracks_double {
 /****************/
 
 /*
+DRAFT
 Certaines routes de services décrivent des voies bus et sont accessibles
 aux vélos mais sont décrites de manières assez diverses. CF TODO
 */
@@ -577,6 +578,26 @@ way|z17-[busway:left=lane][cycleway:left=share_busway]::share_busway_left {
     dashes: 1, 15;
     linecap: round;
     offset: (prop("width", "default") / 2) + 16;
+    major-z-index: 2.1;
+    modifier: true;
+}
+
+/* Des deux côté */
+way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_left{
+    width: 5;
+    color: bicycle#ff00ff;
+    dashes: 1, 15;
+    linecap: round;
+    offset: (prop("width", "default") / 2) + 16;
+    major-z-index: 2.1;
+    modifier: true;
+}
+way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_right{
+    width: 5;
+    color: bicycle#ff00ff;
+    dashes: 1, 15;
+    linecap: round;
+    offset: (prop("width", "default") / 2) - 16;
     major-z-index: 2.1;
     modifier: true;
 }
