@@ -140,10 +140,11 @@ way {
 
 /* Peu importe qu'elle soit partagée avec les piétons dans un premier temps */
 
-way[highway=cycleway] {
+way[highway=cycleway],
+way[highway=footway][bicycle=designated][segregated=yes] {
     width: 6;
     color: bicycle#ff00ff;
-    set cycleway;
+    dashes: 0,0;
 }
 
 
@@ -160,11 +161,12 @@ way[highway=cycleway][foot=designated] {
     set cyclecway;
 }
 
-way[highway=footway][bicycle=designated] {
-    width: 1;
-    color: foot#00ff00;
+way[highway=footway][bicycle=designated][segregated=no],
+way[highway=footway][bicycle=designated][!segregated] {
+    width: 6;
+    color: bicycle#ff00ff;
     dashes: 14,14;
-    dashes-background-color:  bicycle#ff00ff;
+    dashes-background-color:  foot#00ff00;
 }
 
 /* Aménagements cyclables */
@@ -173,9 +175,9 @@ way[highway=footway][bicycle=yes],
 way[highway=path][bicycle=yes][foot=designated],
 way[highway=path][bicycle=yes][foot=official] {
     width: 6;
-    color: foot#00ff00;
+    color: bicycle#ff00ff;
     dashes: 21,7;
-    dashes-background-color:  bicycle#ff00ff;
+    dashes-background-color:  foot#00ff00;
 }
 
 
@@ -204,6 +206,20 @@ way[highway=cycleway] {
 way[highway=cycleway],
 way[highway=path][bicycle=designated] {
     text-halo-color:  bicycle#ff00ff;
+}
+
+/**********/
+/* ONEWAY */
+/**********/
+
+way[highway=footway][oneway:bicycle=yes]::arrow,
+way[highway=path][oneway:bicycle=yes]::arrow {
+    repeat-image: data:image/svg+xml,<svg width='16px' height='10px'><polygon points="0,10 0,0 15,5" style="fill:black;stroke:#ff00ff;stroke-width:2" /></svg>;
+    repeat-image-width: 15;
+	repeat-image-spacing: 40;
+	repeat-image-offset: 0;
+	repeat-image-phase: 5;
+	major-z-index: 3.1;
 }
 
 
@@ -557,6 +573,8 @@ way|z17-[oneway?][busway=lane][cycleway=share_busway]:righthandtraffic::share_bu
 way|z17-[oneway?][busway=lane][cycleway:right=share_busway]::share_busway_right,
 way|z17-[oneway?][busway=track][cycleway:right=share_busway]:righthandtraffic::share_busway_right,
 way|z17-[access=no][bicycle=yes][highway=service][psv=yes]:righthandtraffic::share_busway_right,
+way|z17-[oneway?!][busway=lane][cycleway=share_busway]::share_busway_right,
+way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_right,
 way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::share_busway_right {
     width: 5;
     color: bicycle#ff00ff;
@@ -572,32 +590,14 @@ way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::shar
 way|z17-[busway:left=opposite_lane][cycleway:left=opposite_share_busway]::share_busway_left,
 way|z17-[cycleway:left=opposite_share_busway]::share_busway_left,
 way|z17-[access=no][bicycle=yes][highway=service][psv=yes]!:righthandtraffic::share_busway_left,
+way|z17-[oneway?!][busway=lane][cycleway=share_busway]::share_busway_left,
+way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_left,
 way|z17-[busway:left=lane][cycleway:left=share_busway]::share_busway_left {
     width: 5;
     color: bicycle#ff00ff;
     dashes: 1, 15;
     linecap: round;
     offset: (prop("width", "default") / 2) + 16;
-    major-z-index: 2.1;
-    modifier: true;
-}
-
-/* Des deux côté */
-way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_left{
-    width: 5;
-    color: bicycle#ff00ff;
-    dashes: 1, 15;
-    linecap: round;
-    offset: (prop("width", "default") / 2) + 16;
-    major-z-index: 2.1;
-    modifier: true;
-}
-way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_right{
-    width: 5;
-    color: bicycle#ff00ff;
-    dashes: 1, 15;
-    linecap: round;
-    offset: (prop("width", "default") / 2) - 16;
     major-z-index: 2.1;
     modifier: true;
 }
