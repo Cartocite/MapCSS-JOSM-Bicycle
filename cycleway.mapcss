@@ -90,7 +90,6 @@ setting::bicycle_route {
 
 /*
 Permet d'afficher/masquer les limitations de vitesse
-cf. * Panneaux *
 */
 
 setting::speed {
@@ -771,9 +770,11 @@ relation[type=route][route=bicycle] > way[setting("bicycle_route")]::route {
  Zones 30
  */
 
-way[maxspeed=30][zone:maxspeed="FR:30"][setting("speed")]::maxspeed {
+way[maxspeed=30][source:maxspeed="FR:zone30"][setting("speed")]::z30,
+way[maxspeed=30][zone:maxspeed="FR:30"][setting("speed")]::z30
+{
     width: +20;
-    color: #ff00ffff;
+    color: #4d4dff;
     opacity:0.3;
     object-z-index:1.0;
     dashes: 6, 3;
@@ -783,14 +784,37 @@ way[maxspeed=30][zone:maxspeed="FR:30"][setting("speed")]::maxspeed {
 Limite à 30
 */
 
-way[!zone:maxspeed][maxspeed=30][setting("speed")]::maxspeed {
+way[!zone:maxspeed][!source:maxspeed][maxspeed=30][setting("speed")]::l30 {
     width: +20;
-    color: #ff00ffff;
+    color: #4d4dff;
     opacity:0.3;
     object-z-index:1.0;
 }
 
+/*
+Zones de rencontre
+*/
 
+way[maxspeed=20][source:maxspeed="FR:zone20"][setting("speed")]::z20,
+way[maxspeed=20][zone:maxspeed="FR:20"][setting("speed")]::z20,
+way[highway=living_street][setting("speed")]::z20 {
+    width: +20;
+    color: #b80022;
+    opacity:0.3;
+    object-z-index:1.0;
+    dashes: 6, 3;
+}
+
+/*
+Limite à 20
+*/
+
+way[maxspeed=20][!zone:maxspeed][!source:maxspeed][highway!=living_street][setting("speed")]::l20 {
+    width: +20;
+    color: #b80022;
+    opacity:0.3;
+    object-z-index:1.0;
+}
 
 /************/
 /* PANNEAUX */
