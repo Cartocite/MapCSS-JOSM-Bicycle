@@ -483,8 +483,8 @@ way[oneway=-1][cycleway=track]!:righthandtraffic::right_tracks {
 }
 
 
-/* Bandes bidirectionnelles */
-/* Cas particulier de bandes cyclables à double sens d'un seul côté de
+/* Tracks bidirectionnelles */
+/* Cas particulier des Tracks à double sens d'un seul côté de
 la voie */
 
 way[cycleway:left=track][oneway:bicycle=no]::left_tracks_double,
