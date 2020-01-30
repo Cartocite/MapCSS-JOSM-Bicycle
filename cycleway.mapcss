@@ -88,6 +88,16 @@ setting::bicycle_route {
     default: false;
 }
 
+/*
+Permet d'afficher/masquer les limitations de vitesse
+cf. * Panneaux *
+*/
+
+setting::speed {
+  type: boolean;
+  label: tr("Display maxspeed");
+  default: false;
+}
 
 
 /*
@@ -752,6 +762,34 @@ relation[type=route][route=bicycle] > way[setting("bicycle_route")]::route {
     opacity:0.5;
     object-z-index:1.0; 
 }
+
+/**************************/
+/* Limitations de vitesse */
+/**************************/
+
+/*
+ Zones 30
+ */
+
+way[maxspeed=30][zone:maxspeed="FR:30"][setting("speed")]::maxspeed {
+    width: +20;
+    color: #ff00ffff;
+    opacity:0.3;
+    object-z-index:1.0;
+    dashes: 6, 3;
+}
+
+/*
+Limite à 30
+*/
+
+way[!zone:maxspeed][maxspeed=30][setting("speed")]::maxspeed {
+    width: +20;
+    color: #ff00ffff;
+    opacity:0.3;
+    object-z-index:1.0;
+}
+
 
 
 /************/
