@@ -81,9 +81,23 @@ Ces paramètres sont ensuite introduits dans les selecteurs et conditionne ainsi
 
 /* Itinéraires cyclables */
 
-setting::bicycle_route {
+setting::bicycle_route_ncn {
     type: boolean;
-    label: tr("Display bicycle routes");
+    label: tr("Display bicycle routes (ncn and icn)");
+    icon: "icons/Traffic_sign_C115.svg";
+    default: false;
+}
+
+setting::bicycle_route_rcn {
+    type: boolean;
+    label: tr("Display bicycle routes (rcn)");
+    icon: "icons/Traffic_sign_C115.svg";
+    default: false;
+}
+
+setting::bicycle_route_lcn {
+    type: boolean;
+    label: tr("Display bicycle routes (lcn)");
     icon: "icons/Traffic_sign_C115.svg";
     default: false;
 }
@@ -766,11 +780,35 @@ way|z17-[cycleway:right=opposite_track][oneway][oneway!=no]::arrows
 Il s'agit d'une simple utilisation des childs d'une relation grace à ">"
 */
 
-relation[type=route][route=bicycle] > way[setting("bicycle_route")]::route {
+/*itinéraire icn, lcn */
+
+relation[type=route][route=bicycle][network=ncn] > way[setting("bicycle_route_ncn")]::route-ncn,
+relation[type=route][route=bicycle][network=icn] > way[setting("bicycle_route_ncn")]::route-ncn {
     width: +20; 
     color: #ff00ffff;
     opacity:0.5;
-    object-z-index:1.0; 
+    object-z-index:1.0;
+}
+
+/*itinéraire rcn */
+
+relation[type=route][route=bicycle][network=rcn] > way[setting("bicycle_route_rcn")]::route-rcn {
+    width: +20;
+    color: #ff00ffff;
+    opacity:0.5;
+    dashes: 30, 6;
+    object-z-index:1.0;
+}
+
+/*itinéraire lcn */
+
+relation[type=route][route=bicycle][network=lcn] > way[setting("bicycle_route_lcn")]::route-lcn {
+    width: +20;
+    color: #ff00ffff;
+    opacity:0.5;
+    dashes: 6, 6;
+    object-z-index:1.0;
+    modifier: true;
 }
 
 /**************************/
