@@ -81,13 +81,36 @@ Ces paramètres sont ensuite introduits dans les selecteurs et conditionne ainsi
 
 /* Itinéraires cyclables */
 
-setting::bicycle_route {
+setting::bicycle_route_ncn {
     type: boolean;
-    label: tr("Display bicycle routes");
+    label: tr("Display bicycle routes (ncn and icn)");
     icon: "icons/Traffic_sign_C115.svg";
     default: false;
 }
 
+setting::bicycle_route_rcn {
+    type: boolean;
+    label: tr("Display bicycle routes (rcn)");
+    icon: "icons/Traffic_sign_C115.svg";
+    default: false;
+}
+
+setting::bicycle_route_lcn {
+    type: boolean;
+    label: tr("Display bicycle routes (lcn)");
+    icon: "icons/Traffic_sign_C115.svg";
+    default: false;
+}
+
+/*
+Permet d'afficher/masquer les limitations de vitesse
+*/
+
+setting::speed {
+  type: boolean;
+  label: tr("Display maxspeed");
+  default: false;
+}
 
 
 /*
@@ -483,8 +506,8 @@ way[oneway=-1][cycleway=track]!:righthandtraffic::right_tracks {
 }
 
 
-/* Bandes bidirectionnelles */
-/* Cas particulier de bandes cyclables à double sens d'un seul côté de
+/* Tracks bidirectionnelles */
+/* Cas particulier des Tracks à double sens d'un seul côté de
 la voie */
 
 way[cycleway:left=track][oneway:bicycle=no]::left_tracks_double,
@@ -572,7 +595,6 @@ way|z17-[busway:right=lane][cycleway:right=share_busway]::share_busway_right,
 way|z17-[oneway?][busway=lane][cycleway=share_busway]:righthandtraffic::share_busway_right,
 way|z17-[oneway?][busway=lane][cycleway:right=share_busway]::share_busway_right,
 way|z17-[oneway?][busway=track][cycleway:right=share_busway]:righthandtraffic::share_busway_right,
-way|z17-[access=no][bicycle=yes][highway=service][psv=yes]:righthandtraffic::share_busway_right,
 way|z17-[oneway?!][busway=lane][cycleway=share_busway]::share_busway_right,
 way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_right,
 way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::share_busway_right {
@@ -589,7 +611,6 @@ way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::shar
 
 way|z17-[busway:left=opposite_lane][cycleway:left=opposite_share_busway]::share_busway_left,
 way|z17-[cycleway:left=opposite_share_busway]::share_busway_left,
-way|z17-[access=no][bicycle=yes][highway=service][psv=yes]!:righthandtraffic::share_busway_left,
 way|z17-[oneway?!][busway=lane][cycleway=share_busway]::share_busway_left,
 way|z17-[!oneway][busway=lane][cycleway=share_busway]::share_busway_left,
 way|z17-[busway:left=lane][cycleway:left=share_busway]::share_busway_left {
@@ -602,30 +623,43 @@ way|z17-[busway:left=lane][cycleway:left=share_busway]::share_busway_left {
     modifier: true;
 }
 
-/* Voies partagées avec les bus des 2 côtés explicites et impicites */
-/* TODO */
-
-/*
-####### CAS À INCLURE ######
-TODO
-https://www.openstreetmap.org/way/659754522
-bicycle=yes
-highway=service
-lanes=1
-motor_vehicle=no
-name=Boulevard Saint-Germain
-oneway=yes
-psv=yes
-
-https://www.openstreetmap.org/way/173292034
-bicycle=designated
-cycleway=share_busway
-highway=service
-motor_vehicle=no
-oneway=yes
-psv=yes
-source=cadastre-dgi-fr source : Direction Générale des Impôts - Cadastre. Mise à jour : 2010
+/* Voies partagées avec les bus modélisés sur voies de service
+Le sens de circulation n'est pas pris en compte car il est déja indiqué par le sens de circulation général
+et/ou les doubles sens cyclables
 */
+
+way[highway=service][access=no][bus=yes][bicycle=yes]::service_busway,
+way[highway=service][motor_vehicle=no][bus=yes][bicycle=yes]::service_busway,
+way[highway=service][access=no][bus=designated][bicycle=yes]::service_busway,
+way[highway=service][motor_vehicle=no][bus=designated][bicycle=yes]::service_busway,
+way[highway=service][access=no][psv=yes][bicycle=yes]::service_busway,
+way[highway=service][motor_vehicle=no][psv=yes][bicycle=yes]::service_busway,
+way[highway=service][access=no][psv=designated][bicycle=yes]::service_busway,
+way[highway=service][motor_vehicle=no][psv=designated][bicycle=yes]::service_busway,
+way[highway=service][access=no][bus=yes][bicycle=designated]::service_busway,
+way[highway=service][motor_vehicle=no][bus=yes][bicycle=designated]::service_busway,
+way[highway=service][access=no][bus=designated][bicycle=designated]::service_busway,
+way[highway=service][motor_vehicle=no][bus=designated][bicycle=designated]::service_busway,
+way[highway=service][access=no][psv=yes][bicycle=designated]::service_busway,
+way[highway=service][motor_vehicle=no][psv=yes][bicycle=designated]::service_busway,
+way[highway=service][access=no][psv=designated][bicycle=designated]::service_busway,
+way[highway=service][motor_vehicle=no][psv=designated][bicycle=designated]::service_busway,
+way[highway=service][access=no][bus=yes][cycleway=share_busway]::service_busway,
+way[highway=service][motor_vehicle=no][bus=yes][cycleway=share_busway]::service_busway,
+way[highway=service][access=no][bus=designated][cycleway=share_busway]::service_busway,
+way[highway=service][motor_vehicle=no][bus=designated][cycleway=share_busway]::service_busway,
+way[highway=service][access=no][psv=yes][cycleway=share_busway]::service_busway,
+way[highway=service][motor_vehicle=no][psv=yes][cycleway=share_busway]::service_busway,
+way[highway=service][access=no][psv=designated][cycleway=share_busway]::service_busway,
+way[highway=service][motor_vehicle=no][psv=designated][cycleway=share_busway]::service_busway
+{
+    width: 7;
+    color: bicycle#ff00ff;
+    dashes: 1, 15;
+    linecap: round;
+    major-z-index: 2.1;
+    modifier: true;
+}
 
 
 /****************/
@@ -746,13 +780,90 @@ way|z17-[cycleway:right=opposite_track][oneway][oneway!=no]::arrows
 Il s'agit d'une simple utilisation des childs d'une relation grace à ">"
 */
 
-relation[type=route][route=bicycle] > way[setting("bicycle_route")]::route {
+/*itinéraire icn, lcn */
+
+relation[type=route][route=bicycle][network=ncn] > way[setting("bicycle_route_ncn")]::route-ncn,
+relation[type=route][route=bicycle][network=icn] > way[setting("bicycle_route_ncn")]::route-ncn {
     width: +20; 
     color: #ff00ffff;
     opacity:0.5;
-    object-z-index:1.0; 
+    object-z-index:1.0;
 }
 
+/*itinéraire rcn */
+
+relation[type=route][route=bicycle][network=rcn] > way[setting("bicycle_route_rcn")]::route-rcn {
+    width: +20;
+    color: #ff00ffff;
+    opacity:0.5;
+    dashes: 30, 6;
+    object-z-index:1.0;
+}
+
+/*itinéraire lcn */
+
+relation[type=route][route=bicycle][network=lcn] > way[setting("bicycle_route_lcn")]::route-lcn {
+    width: +20;
+    color: #ff00ffff;
+    opacity:0.5;
+    dashes: 6, 6;
+    object-z-index:1.0;
+    modifier: true;
+}
+
+/**************************/
+/* Limitations de vitesse */
+/**************************/
+
+/*
+ Zones 30
+ */
+
+way[maxspeed=30][source:maxspeed="FR:zone30"][setting("speed")]::z30,
+way[maxspeed=30][zone:maxspeed="FR:30"][setting("speed")]::z30
+{
+    width: +20;
+    color: #4d4dff;
+    opacity:0.3;
+    object-z-index:1.0;
+    dashes: 6, 3;
+}
+
+/*
+Limite à 30
+*/
+
+way[!zone:maxspeed][!source:maxspeed][maxspeed=30][setting("speed")]::l30 {
+    width: +20;
+    color: #4d4dff;
+    opacity:0.3;
+    object-z-index:1.0;
+}
+
+/*
+Zones de rencontre
+*/
+
+way[maxspeed=20][source:maxspeed="FR:zone20"][setting("speed")]::z20,
+way[maxspeed=20][zone:maxspeed="FR:20"][setting("speed")]::z20,
+way[highway=living_street][setting("speed")]::z20 {
+    width: +20;
+    color: #b80022;
+    opacity:0.3;
+    object-z-index:1.0;
+    dashes: 6, 3;
+}
+
+/*
+Limite à 20
+*/
+
+way[maxspeed=20][!zone:maxspeed][!source:maxspeed][highway!=living_street][setting("speed")]::l20 {
+    width: +20;
+    color: #b80022;
+    opacity:0.3;
+    object-z-index:1.0;
+}
 
 /************/
 /* PANNEAUX */
