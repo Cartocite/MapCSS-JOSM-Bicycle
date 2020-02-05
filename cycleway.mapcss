@@ -609,6 +609,7 @@ way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::shar
 
 /* Voies partagées avec les bus à gauches explicites et impicites */
 
+way|z17-[cycleway:left=share_busway]::share_busway_left,
 way|z17-[busway:left=opposite_lane][cycleway:left=opposite_share_busway]::share_busway_left,
 way|z17-[cycleway:left=opposite_share_busway]::share_busway_left,
 way|z17-[oneway?!][busway=lane][cycleway=share_busway]::share_busway_left,
