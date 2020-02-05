@@ -186,7 +186,7 @@ way[highway=cycleway][foot=designated][!segregated] {
     color: bicycle#ff00ff;
     dashes: 14,14;
     dashes-background-color: foot#00ff00;
-    set cyclecway;120
+    set cyclecway;
 }
 
 way[highway=footway][bicycle=designated][segregated=no],
@@ -204,7 +204,7 @@ way[highway=footway][bicycle=yes][!segregated],
 way[highway=path][bicycle=yes][foot=designated][segregated?!],
 way[highway=path][bicycle=yes][foot=designated][!segregated],
 way[highway=path][bicycle=yes][foot=official] {
-    width: 12;
+    width: 6;
     color: bicycle#ff00ff;
     dashes: 21,7;
     dashes-background-color:  foot#00ff00;
@@ -677,6 +677,8 @@ way[highway=service][motor_vehicle=no][psv=designated][cycleway=share_busway]::s
 
 /* set shared_lane_left */
 /* set shared_lane_right */
+
+/* Latéraliser les shared_lane */
 
 /* prepare shared_lane */
     
