@@ -675,43 +675,46 @@ way[highway=service][motor_vehicle=no][psv=designated][cycleway=share_busway]::s
 /* SHARED LANES */
 /****************/
 
-/* set shared_lane_left */
-/* set shared_lane_right */
+/* Prepare shared_lane */
 
-/* Todo Latéraliser les shared_lane */
+/* Droite explicites et impicites */
 
-/* prepare shared_lane */
-    
-way[oneway?][cycleway=shared_lane]:righthandtraffic::shared_lane {
+way[oneway?][cycleway=shared_lane]:righthandtraffic::shared_lane_right {
     set shared_laneRight;
-    set righthandtr;
 }
-way[oneway=-1][cycleway=shared_lane]:righthandtraffic::shared_lane {
-    set shared_laneLeft;
-    set righthandtr;
-}
-way[oneway?][cycleway=shared_lane]!.righthandtr::shared_lane {
-    set shared_laneLeft;
-}
-way[oneway=-1][cycleway=shared_lane]!.righthandtr::shared_lane {
+way[oneway=-1][cycleway=shared_lane]!.righthandtr::shared_lane_right {
     set shared_laneRight;
+}
+way[cycleway:right=shared_lane]::shared_lane_right {
+    set shared_laneRight;
+}
+
+/* Gauche explicites et impicites */
+
+way[oneway=-1][cycleway=shared_lane]:righthandtraffic::shared_lane_left {
+    set shared_laneLeft;
+}
+way[oneway?][cycleway=shared_lane]!.righthandtr::shared_lane_left {
+    set shared_laneLeft;
 }
 way[cycleway:left=shared_lane]::shared_lane {
     set shared_laneLeft;
 }
-way[cycleway:right=shared_lane]::shared_lane {
-    set shared_laneRight;
-}
-way[oneway=no][cycleway=shared_lane]::shared_lane,
-way[!oneway][cycleway=shared_lane]::shared_lane {
-    set shared_laneLeft;
-    set shared_laneRight;
-}
 
+/* Des deux côtés */
+
+way[oneway=no][cycleway=shared_lane]::shared_lane_left,
+way[!oneway][cycleway=shared_lane]::shared_lane_left {
+    set shared_laneLeft;
+}
+way[oneway=no][cycleway=shared_lane]::shared_lane_right,
+way[!oneway][cycleway=shared_lane]::shared_lane_right {
+    set shared_laneRight;
+}
 
 /* render shared_lane */
 
-way.shared_laneRight::shared_lane {
+way.shared_laneRight::shared_lane_right {
     width: 4;
     color: bicycle#ff00ff;
     dashes: 5, 15;
@@ -719,7 +722,7 @@ way.shared_laneRight::shared_lane {
     major-z-index: 2.1;
     modifier: true;
 }
-way[prop("shared_laneLeft","core_cycleway")]::shared_lane {
+way[prop("shared_laneLeft","core_cycleway")]::shared_lane_left {
     width: 4;
     color: bicycle#ff00ff;
     dashes: 5, 15;
