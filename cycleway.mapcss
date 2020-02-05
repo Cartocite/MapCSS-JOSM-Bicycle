@@ -678,7 +678,7 @@ way[highway=service][motor_vehicle=no][psv=designated][cycleway=share_busway]::s
 /* set shared_lane_left */
 /* set shared_lane_right */
 
-/* Latéraliser les shared_lane */
+/* Todo Latéraliser les shared_lane */
 
 /* prepare shared_lane */
     
