@@ -591,6 +591,7 @@ aux vélos mais sont décrites de manières assez diverses. CF TODO
 /* Voies partagées avec les bus à droite explicites et impicites */
 
 
+way|z17-[cycleway:right=share_busway]::share_busway_right,
 way|z17-[busway:right=lane][cycleway:right=share_busway]::share_busway_right,
 way|z17-[oneway?][busway=lane][cycleway=share_busway]:righthandtraffic::share_busway_right,
 way|z17-[oneway?][busway=lane][cycleway:right=share_busway]::share_busway_right,
