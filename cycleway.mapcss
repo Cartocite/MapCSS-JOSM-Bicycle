@@ -713,7 +713,7 @@ way.shared_laneRight::shared_lane {
 way[prop("shared_laneLeft","core_cycleway")]::shared_lane {
     width: 4;
     color: bicycle#ff00ff;
-    dashes: 6, 3;
+    dashes: 5, 15;
     offset: (prop("width", "default") / 2) + 3;
     major-z-index: 2.1;
     modifier: true;
