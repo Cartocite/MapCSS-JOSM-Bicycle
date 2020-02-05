@@ -213,7 +213,8 @@ way[highway=path][bicycle=yes][foot=official] {
 
 /* Pistes cyclables et équivalent accessibles aux piétons */
 
-way[highway=cycleway][foot=yes],
+way[highway=cycleway][foot=yes][segregated?!],
+way[highway=cycleway][foot=yes][!segregated],
 way[highway=path][bicycle=designated][foot=yes],
 way[highway=path][bicycle=official][foot=yes] {
     width: 6;
