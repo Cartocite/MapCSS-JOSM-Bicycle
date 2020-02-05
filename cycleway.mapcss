@@ -165,6 +165,7 @@ way {
 
 way[highway=cycleway],
 way[highway=footway][bicycle=designated][segregated=yes],
+way[highway=footway][bicycle=yes][segregated=yes],
 way[highway=path][bicycle=designated][segregated=yes] {
     width: 6;
     color: bicycle#ff00ff;
@@ -185,7 +186,7 @@ way[highway=cycleway][foot=designated][!segregated] {
     color: bicycle#ff00ff;
     dashes: 14,14;
     dashes-background-color: foot#00ff00;
-    set cyclecway;
+    set cyclecway;120
 }
 
 way[highway=footway][bicycle=designated][segregated=no],
@@ -198,10 +199,12 @@ way[highway=footway][bicycle=designated][!segregated] {
 
 /* Aménagements cyclables */
 
-way[highway=footway][bicycle=yes],
-way[highway=path][bicycle=yes][foot=designated],
+way[highway=footway][bicycle=yes][segregated?!],
+way[highway=footway][bicycle=yes][!segregated],
+way[highway=path][bicycle=yes][foot=designated][segregated?!],
+way[highway=path][bicycle=yes][foot=designated][!segregated],
 way[highway=path][bicycle=yes][foot=official] {
-    width: 6;
+    width: 12;
     color: bicycle#ff00ff;
     dashes: 21,7;
     dashes-background-color:  foot#00ff00;
