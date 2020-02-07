@@ -896,3 +896,13 @@ way[traffic_sign="FR:C115"] > node[setting("traffic_signs")]::traffic_signs {
     modifier:true;
 }
 
+node[traffic_sign="FR:B22a"][setting("traffic_signs")],
+way[traffic_sign="FR:B22a"] > node[setting("traffic_signs")]::traffic_signs {
+    icon-image: "icons/Traffic_sign_B22a.svg";
+    icon-width: 18;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:2.0;
+    modifier:true;
+}
+
