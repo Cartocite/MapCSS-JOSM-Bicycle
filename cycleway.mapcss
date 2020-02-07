@@ -246,6 +246,7 @@ way[highway=path][bicycle=designated] {
 /**********/
 
 way[highway=footway][oneway:bicycle=yes]::arrow,
+way[highway=cycleway][oneway:bicycle=yes]::arrow,
 way[highway=path][oneway:bicycle=yes]::arrow {
     repeat-image: data:image/svg+xml,<svg width='16px' height='10px'><polygon points="0,10 0,0 15,5" style="fill:black;stroke:#ff00ff;stroke-width:2" /></svg>;
     repeat-image-width: 15;
