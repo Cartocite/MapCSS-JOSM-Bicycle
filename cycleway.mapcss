@@ -174,7 +174,7 @@ way[highway=path][bicycle=designated][segregated=yes] {
 
 
 
-/* Aménagements équivalent aux pistes cyclables et accessibles aux piétons */
+/* Aménagements équivalent aux pistes cyclables et accessibles aux piétons et non séparé */
 
 way[highway=path][bicycle=designated][foot=designated][segregated?!],
 way[highway=path][bicycle=designated][foot=designated][!segregated],
@@ -215,8 +215,10 @@ way[highway=path][bicycle=yes][foot=official] {
 
 way[highway=cycleway][foot=yes][segregated?!],
 way[highway=cycleway][foot=yes][!segregated],
-way[highway=path][bicycle=designated][foot!=no],
-way[highway=path][bicycle=official][foot!=no] {
+way[highway=path][bicycle=designated][foot!=no][segregated?!],
+way[highway=path][bicycle=designated][foot!=no][!segregated],
+way[highway=path][bicycle=official][foot!=no][segregated?!],
+way[highway=path][bicycle=official][foot!=no][!segregated] {
     width: 6;
     color:  bicycle#ff00ff;
     dashes: 21,7;
