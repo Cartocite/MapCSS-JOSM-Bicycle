@@ -744,7 +744,6 @@ way[prop("shared_laneLeft","core_cycleway")]::shared_lane_left {
 
 /* Ajout d'une flèche en sens inverse */
 /* TODO
- * Gestion du oneway=-1
  */
 
 /* Opposites gauches explicites et impicites */
@@ -757,8 +756,10 @@ way|z17-[cycleway=opposite_track][oneway][oneway!=no]:righthandtraffic::arrows,
 way|z17-[cycleway:left=opposite_lane][oneway][oneway!=no]::arrows,
 way|z17-[oneway][oneway!=no][oneway:bicycle=no][cycleway!=opposite][cycleway:left!=opposite]:righthandtraffic::arrows,
 way|z17-[cycleway:left=opposite_share_busway]::arrows,
-way|z17-[cycleway:left=opposite_track][oneway][oneway!=no]::arrows
-{
+way|z17-[cycleway:left=opposite_track][oneway][oneway!=no]::arrows,
+way|z17-[cycleway:left=opposite_track][oneway][oneway!=no]::arrows,
+way|z17-[cycleway:left=track][cycleway:left:oneway=-1],
+way|z17-[cycleway:left=lane][cycleway:left:oneway=-1]{
     repeat-image: data:image/svg+xml,<svg width='16px' height='10px'><polygon points="0,5 15,0 15,10" style="fill:black;stroke:#ff00ff;stroke-width:2" /></svg>;
     repeat-image-width: 20;
 	repeat-image-spacing: 40;
@@ -777,7 +778,9 @@ way|z17-[cycleway=opposite_track][oneway][oneway!=no]!:righthandtraffic::arrows,
 way|z17-[cycleway:right=opposite_lane][oneway][oneway!=no]::arrows,
 way|z17-[oneway][oneway!=no][oneway:bicycle=no][cycleway!=opposite][cycleway:right!=opposite]!:righthandtraffic::arrows,
 way|z17-[cycleway:right=opposite_share_busway]::arrows,
-way|z17-[cycleway:right=opposite_track][oneway][oneway!=no]::arrows
+way|z17-[cycleway:right=opposite_track][oneway][oneway!=no]::arrows,
+way|z17-[cycleway:right=track][cycleway:left:oneway=-1],
+way|z17-[cycleway:right=lane][cycleway:left:oneway=-1]
 {
     repeat-image: data:image/svg+xml,<svg width='16px' height='10px'><polygon points="0,5 15,0 15,10" style="fill:black;stroke:#ff00ff;stroke-width:2" /></svg>;
     repeat-image-width: 20;
