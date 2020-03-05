@@ -910,3 +910,11 @@ way[traffic_sign="FR:B22a"] > node[setting("traffic_signs")]::traffic_signs {
     modifier:true;
 }
 
+relation[restriction:bicycle=give_way] > node::traffic_signs {
+    icon-image: "icons/Traffic_sign_M12a.svg";
+    icon-width: 24;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:4.0;
+    modifier:true;
+}
