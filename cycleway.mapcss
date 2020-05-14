@@ -918,3 +918,36 @@ relation[restriction:bicycle=give_way] > node::traffic_signs {
     object-z-index:4.0;
     modifier:true;
 }
+
+/****************/
+/* CORONAPISTES */
+/****************/
+
+
+/*Rendu en tiret route et vilet*/
+way[description:covid19]::covid_1
+{
+    width: +15;
+    color: #ff0000;
+    opacity:0.3;
+    object-z-index:1.0;
+    dashes: 10, 5, 5, 5; 
+}
+way[description:covid19]::covid_2
+{
+    width: +15;
+    color: #9a1dff;
+    opacity:0.3;
+    object-z-index:1.0;
+    dashes: 0, 10, 5, 5, 5, 0;
+}
+
+/*Ajout du texte CORONAPISTE*/
+way[description:covid19] {
+    text: eval(concat(tag("name"), " — CORONAPISTE"));
+    text-color: white;
+    font-size: 16;
+    text-position: line;
+    text-halo-opacity: 1;
+    text-halo-radius: 1.8;
+}
