@@ -913,9 +913,18 @@ way[traffic_sign="FR:B30"] > node|z19-[setting("traffic_signs")]::traffic_signs 
     modifier:true;
 }
 
-way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z19-[setting("traffic_signs")]::traffic_signs {
+way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z20-[setting("traffic_signs")]::traffic_signs {
     icon-image: "icons/Traffic_sign_B30.svg";
     icon-width: 25;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:2.0;
+    modifier:true;
+}
+
+way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z19[setting("traffic_signs")]::traffic_signs {
+    icon-image: "icons/Traffic_sign_B30.svg";
+    icon-width: 18;
     icon-offset-x: 14;
     icon-offset-y: -14;
     object-z-index:2.0;
