@@ -353,11 +353,9 @@ way[oneway=-1][cycleway=lane]!:righthandtraffic::right_lanes {
 /* Cas particulier de bandes cyclables à double sens d'un seul côté de
 la voie */
 
-way[cycleway:left=lane][oneway:bicycle=no]::left_lanes_double,
 way[cycleway:left=lane][cycleway:left:oneway=no]::left_lanes_double {
 	set laneLeftDouble
 }
-way[cycleway:right=lane][oneway:bicycle=no]::right_lanes_double,
 way[cycleway:right=lane][cycleway:right:oneway=no]::right_lanes_double {
 	set laneRightDouble
 }
@@ -521,11 +519,9 @@ way[oneway=-1][cycleway=track]!:righthandtraffic::right_tracks {
 /* Cas particulier des Tracks à double sens d'un seul côté de
 la voie */
 
-way[cycleway:left=track][oneway:bicycle=no]::left_tracks_double,
 way[cycleway:left=track][cycleway:left:oneway=no]::left_tracks_double {
 	set trackLeftDouble
 }
-way[cycleway:right=track][oneway:bicycle=no]::right_tracks_double,
 way[cycleway:right=track][cycleway:right:oneway=no]::right_tracks_double {
 	set trackRightDouble
 }
