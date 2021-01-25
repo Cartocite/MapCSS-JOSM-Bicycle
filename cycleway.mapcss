@@ -900,6 +900,32 @@ way[traffic_sign="FR:C115"] > node[setting("traffic_signs")]::traffic_signs {
     modifier:true;
 }
 
+node|z18-[traffic_sign="FR:B30"][setting("traffic_signs")]::traffic_signs {
+    icon-image: "icons/Traffic_sign_B30.svg";
+    icon-width: 25;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:2.0;
+    modifier:true;
+}
+way[traffic_sign="FR:B30"] > node|z19-[setting("traffic_signs")]::traffic_signs {
+    icon-image: "icons/Traffic_sign_B30.svg";
+    icon-width: 25;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:2.0;
+    modifier:true;
+}
+
+way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z19-[setting("traffic_signs")]::traffic_signs {
+    icon-image: "icons/Traffic_sign_B30.svg";
+    icon-width: 25;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:2.0;
+    modifier:true;
+}
+
 node[traffic_sign="FR:B22a"][setting("traffic_signs")],
 way[traffic_sign="FR:B22a"] > node[setting("traffic_signs")]::traffic_signs {
     icon-image: "icons/Traffic_sign_B22a.svg";
@@ -910,13 +936,36 @@ way[traffic_sign="FR:B22a"] > node[setting("traffic_signs")]::traffic_signs {
     modifier:true;
 }
 
-relation[restriction:bicycle=give_way] > node::traffic_signs {
+relation[restriction:bicycle=give_way] > node|z16-18::traffic_signs {
     icon-image: "icons/Traffic_sign_M12a.svg";
-    icon-width: 24;
+    icon-width: 30;
     icon-offset-x: 14;
     icon-offset-y: -14;
     object-z-index:4.0;
     modifier:true;
+}
+
+relation[restriction:bicycle=give_way] > node|z19-::traffic_signs {
+    icon-image: "icons/Traffic_sign_M12a.svg";
+    icon-width: 50;
+    icon-offset-x: 14;
+    icon-offset-y: -14;
+    object-z-index:4.0;
+    modifier:true;
+}
+
+/*********/
+/* PICTO */
+/*********/
+
+node|z19-[amenity=bicycle_parking] {
+    icon-image: "presets/vehicle/parking/bicycle.svg";
+    icon-width: 30;
+}
+
+node|z19-[cycleway=asl] {
+    icon-image: "presets/vehicle/asl.svg";
+    icon-width: 28;
 }
 
 /****************/
