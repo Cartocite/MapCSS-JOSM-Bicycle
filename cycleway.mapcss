@@ -886,6 +886,8 @@ way[maxspeed=20][!zone:maxspeed][!source:maxspeed][highway!=living_street][setti
 /* PANNEAUX */
 /************/
 
+/* Voies Vertes */
+
 node[traffic_sign="FR:C115"][setting("traffic_signs")],
 way[traffic_sign="FR:C115"] > node[setting("traffic_signs")]::traffic_signs {
     icon-image: "icons/Traffic_sign_C115.svg";
@@ -895,6 +897,8 @@ way[traffic_sign="FR:C115"] > node[setting("traffic_signs")]::traffic_signs {
     object-z-index:2.0;
     modifier:true;
 }
+
+/* Zones 30 */
 
 node|z18-[traffic_sign="FR:B30"][setting("traffic_signs")]::traffic_signs {
     icon-image: "icons/Traffic_sign_B30.svg";
@@ -913,7 +917,7 @@ way[traffic_sign="FR:B30"] > node|z19-[setting("traffic_signs")]::traffic_signs 
     modifier:true;
 }
 
-way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z20-[setting("traffic_signs")]::traffic_signs {
+way[zone:maxspeed="FR:30"] > node|z20-[setting("traffic_signs")]::traffic_signs {
     icon-image: "icons/Traffic_sign_B30.svg";
     icon-width: 25;
     icon-offset-x: 14;
@@ -922,7 +926,7 @@ way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z20-[setting("tra
     modifier:true;
 }
 
-way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z19[setting("traffic_signs")]::traffic_signs {
+way[zone:maxspeed="FR:30"] > node|z19[setting("traffic_signs")]::traffic_signs {
     icon-image: "icons/Traffic_sign_B30.svg";
     icon-width: 18;
     icon-offset-x: 14;
@@ -930,6 +934,8 @@ way[source:maxspeed="FR:zone30"][zone:maxspeed="FR:30"] > node|z19[setting("traf
     object-z-index:2.0;
     modifier:true;
 }
+
+/* piste ou bande cyclable obligatoire */
 
 node[traffic_sign="FR:B22a"][setting("traffic_signs")],
 way[traffic_sign="FR:B22a"] > node[setting("traffic_signs")]::traffic_signs {
@@ -940,6 +946,8 @@ way[traffic_sign="FR:B22a"] > node[setting("traffic_signs")]::traffic_signs {
     object-z-index:2.0;
     modifier:true;
 }
+
+/* Céder le passage M12 */
 
 relation[restriction:bicycle=give_way] > node|z16-18::traffic_signs {
     icon-image: "icons/Traffic_sign_M12a.svg";
