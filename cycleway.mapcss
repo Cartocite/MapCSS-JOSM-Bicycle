@@ -9,6 +9,14 @@ Very commented (in french for the moment) to facilitate understanding and learni
 
 */
 
+/********/
+/* TODO */
+/********/
+/*
+* Ajouter les voies interdites aux vélos (bicycle=no ; bicycle=use_sidepath)
+* Ajouter deux flèches pour les [cycleway:right:oneway=no][cycleway:left:oneway=no]
+
+
 /**************************/
 /* DESCRIPTIONS GÉNÉRALES */
 /**************************/
