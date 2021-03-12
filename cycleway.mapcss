@@ -712,11 +712,15 @@ way[cycleway:left=shared_lane]::shared_lane {
 /* Des deux côtés */
 
 way[oneway=no][cycleway=shared_lane]::shared_lane_left,
-way[!oneway][cycleway=shared_lane]::shared_lane_left {
+way[oneway=no][cycleway:both=shared_lane]::shared_lane_left,
+way[!oneway][cycleway=shared_lane]::shared_lane_left,
+way[!oneway][cycleway:both=shared_lane]::shared_lane_left {
     set shared_laneLeft;
 }
 way[oneway=no][cycleway=shared_lane]::shared_lane_right,
-way[!oneway][cycleway=shared_lane]::shared_lane_right {
+way[oneway=no][cycleway:both=shared_lane]::shared_lane_right,
+way[!oneway][cycleway=shared_lane]::shared_lane_right,
+way[!oneway][cycleway:both=shared_lane]::shared_lane_right {
     set shared_laneRight;
 }
 
@@ -730,7 +734,7 @@ way.shared_laneRight::shared_lane_right {
     major-z-index: 2.1;
     modifier: true;
 }
-way[prop("shared_laneLeft","core_cycleway")]::shared_lane_left {
+way.shared_laneLeft::shared_lane_left {
     width: 4;
     color: bicycle#ff00ff;
     dashes: 5, 15;
