@@ -140,7 +140,7 @@ setting::traffic_signs {
 setting::old_style {
   type: boolean;
   label: tr("Masquer les anciens styles");
-  default: false;
+  default: true;
 }
 
 way[setting("old_style")]::core_cycleway {
@@ -618,8 +618,9 @@ way|z17-[busway:right=opposite_lane][cycleway:right=opposite_share_busway]::shar
     color: bicycle#ff00ff;
     dashes: 1, 15;
     linecap: round;
-    offset: (prop("width", "default") / 2) - 16;
-    major-z-index: 2.1;
+    offset: -10;
+/*   offset: (prop("width", "default") / 2) - 10; */
+    major-z-index: 10;
     modifier: true;	
 }
 
@@ -635,8 +636,9 @@ way|z17-[busway:left=lane][cycleway:left=share_busway]::share_busway_left {
     color: bicycle#ff00ff;
     dashes: 1, 15;
     linecap: round;
-    offset: (prop("width", "default") / 2) + 16;
-    major-z-index: 2.1;
+    offset: 10;
+/*  offset: (prop("width", "default") / 2) + 10; */
+    major-z-index: 10;
     modifier: true;
 }
 
@@ -688,25 +690,25 @@ way[highway=service][motor_vehicle=no][psv=designated][cycleway=share_busway]::s
 /* Droite explicites et impicites */
 
 way[oneway?][cycleway=shared_lane]:righthandtraffic::shared_lane_right {
-    set shared_laneRight;
+set shared_lane_Right;
 }
 way[oneway=-1][cycleway=shared_lane]!.righthandtr::shared_lane_right {
-    set shared_laneRight;
+    set shared_lane_Right;
 }
 way[cycleway:right=shared_lane]::shared_lane_right {
-    set shared_laneRight;
+    set shared_lane_Right;
 }
 
 /* Gauche explicites et impicites */
 
 way[oneway=-1][cycleway=shared_lane]:righthandtraffic::shared_lane_left {
-    set shared_laneLeft;
+    set shared_lane_Left;
 }
 way[oneway?][cycleway=shared_lane]!.righthandtr::shared_lane_left {
-    set shared_laneLeft;
+    set shared_lane_Left;
 }
 way[cycleway:left=shared_lane]::shared_lane {
-    set shared_laneLeft;
+    set shared_lane_Left;
 }
 
 /* Des deux côtés */
@@ -715,31 +717,33 @@ way[oneway=no][cycleway=shared_lane]::shared_lane_left,
 way[oneway=no][cycleway:both=shared_lane]::shared_lane_left,
 way[!oneway][cycleway=shared_lane]::shared_lane_left,
 way[!oneway][cycleway:both=shared_lane]::shared_lane_left {
-    set shared_laneLeft;
+    set shared_lane_Left;
 }
 way[oneway=no][cycleway=shared_lane]::shared_lane_right,
 way[oneway=no][cycleway:both=shared_lane]::shared_lane_right,
 way[!oneway][cycleway=shared_lane]::shared_lane_right,
 way[!oneway][cycleway:both=shared_lane]::shared_lane_right {
-    set shared_laneRight;
+    set shared_lane_Right;
 }
 
 /* render shared_lane */
 
-way.shared_laneRight::shared_lane_right {
+way.shared_lane_Right::shared_lane_right {
     width: 4;
     color: bicycle#ff00ff;
     dashes: 5, 15;
-    offset: 0 - (prop("width", "default") / 2) - 3;
-    major-z-index: 2.1;
+    offset: -6;
+/*  offset: (prop("width", "default") / 2) - 3; */
+    major-z-index: 10;
     modifier: true;
 }
-way.shared_laneLeft::shared_lane_left {
+way.shared_lane_Left::shared_lane_left {
     width: 4;
     color: bicycle#ff00ff;
     dashes: 5, 15;
-    offset: (prop("width", "default") / 2) + 3;
-    major-z-index: 2.1;
+    offset: 6;
+/*  offset: (prop("width", "default") / 2) + 3; */
+    major-z-index: 10;
     modifier: true;
 }
 
@@ -773,7 +777,7 @@ way|z17-[cycleway:left=lane][cycleway:left:oneway=-1]{
 	repeat-image-spacing: 40;
 	repeat-image-offset: 11;
 	repeat-image-phase: 5;
-	major-z-index: 3.1;
+	major-z-index: 20;
 }
 
 /* Opposites droits explicites et impicites */
@@ -795,7 +799,7 @@ way|z17-[cycleway:right=lane][cycleway:left:oneway=-1]
 	repeat-image-spacing: 40;
 	repeat-image-offset: -11;
 	repeat-image-phase: 5;
-	major-z-index: 3.1;
+	major-z-index: 20;
 }
 
 
