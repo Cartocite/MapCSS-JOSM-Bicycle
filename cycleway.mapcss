@@ -171,10 +171,10 @@ way {
 
 /* Peu importe qu'elle soit partagée avec les piétons dans un premier temps */
 
-way[highway=cycleway],
-way[highway=footway][bicycle=designated][segregated=yes],
-way[highway=footway][bicycle=yes][segregated=yes],
-way[highway=path][bicycle=designated][segregated=yes] {
+way[highway=cycleway]::cycleway,
+way[highway=footway][bicycle=designated][segregated=yes]::cycleway,
+way[highway=footway][bicycle=yes][segregated=yes]::cycleway,
+way[highway=path][bicycle=designated][segregated=yes]::cycleway {
     width: 6;
     color: bicycle#ff00ff;
     dashes: 0,0;
@@ -184,21 +184,22 @@ way[highway=path][bicycle=designated][segregated=yes] {
 
 /* Aménagements équivalent aux pistes cyclables et accessibles aux piétons et non séparé */
 
-way[highway=path][bicycle=designated][foot=designated][segregated?!],
-way[highway=path][bicycle=designated][foot=designated][!segregated],
-way[highway=path][bicycle=official][foot=official][segregated?!],
-way[highway=path][bicycle=official][foot=official][!segregated],
-way[highway=cycleway][foot=designated][segregated?!],
-way[highway=cycleway][foot=designated][!segregated] {
+way[highway=path][bicycle=designated][foot=designated][segregated?!]::cycleway,
+way[highway=path][bicycle=designated][foot=designated][!segregated]::cycleway,
+way[highway=path][bicycle=official][foot=official][segregated?!]::cycleway,
+way[highway=path][bicycle=official][foot=official][!segregated]::cycleway,
+way[highway=cycleway][foot=designated][segregated?!]::cycleway,
+way[highway=cycleway][foot=designated][!segregated]::cycleway {
     width: 6;
     color: bicycle#ff00ff;
     dashes: 14,14;
     dashes-background-color: foot#00ff00;
+    major-z-index: 10;
     set cyclecway;
 }
 
-way[highway=footway][bicycle=designated][segregated=no],
-way[highway=footway][bicycle=designated][!segregated] {
+way[highway=footway][bicycle=designated][segregated=no]::foot,
+way[highway=footway][bicycle=designated][!segregated]::foot {
     width: 6;
     color: bicycle#ff00ff;
     dashes: 14,14;
@@ -207,46 +208,50 @@ way[highway=footway][bicycle=designated][!segregated] {
 
 /* Aménagements cyclables */
 
-way[highway=footway][bicycle=yes][segregated?!],
-way[highway=footway][bicycle=yes][!segregated],
-way[highway=path][bicycle=yes][foot=designated][segregated?!],
-way[highway=path][bicycle=yes][foot=designated][!segregated],
-way[highway=path][bicycle=yes][foot=official] {
+way[highway=footway][bicycle=yes][segregated?!]::foot,
+way[highway=footway][bicycle=yes][!segregated]::foot,
+way[highway=path][bicycle=yes][foot=designated][segregated?!]::foot,
+way[highway=path][bicycle=yes][foot=designated][!segregated]::foot,
+way[highway=path][bicycle=yes][foot=official]::foot {
     width: 6;
     color: bicycle#ff00ff;
     dashes: 21,7;
+    major-z-index: 10;
     dashes-background-color:  foot#00ff00;
 }
 
 
 /* Pistes cyclables et équivalent accessibles aux piétons */
 
-way[highway=cycleway][foot=yes][segregated?!],
-way[highway=cycleway][foot=yes][!segregated],
-way[highway=path][bicycle=designated][foot!=no][segregated?!],
-way[highway=path][bicycle=designated][foot!=no][!segregated],
-way[highway=path][bicycle=official][foot!=no][segregated?!],
-way[highway=path][bicycle=official][foot!=no][!segregated] {
+way[highway=cycleway][foot=yes][segregated?!]::foot,
+way[highway=cycleway][foot=yes][!segregated]::foot,
+way[highway=path][bicycle=designated][foot!=no][segregated?!]::foot,
+way[highway=path][bicycle=designated][foot!=no][!segregated]::foot,
+way[highway=path][bicycle=official][foot!=no][segregated?!]::foot,
+way[highway=path][bicycle=official][foot!=no][!segregated]::foot {
     width: 6;
     color:  bicycle#ff00ff;
     dashes: 21,7;
+    major-z-index: 10;
     dashes-background-color: foot#00ff00;
 }
 
 
 /* Halo autour du texte des pistes cyclables */
 
-way[highway=cycleway] {
+way[highway=cycleway]::cycleway_text {
     text: auto;
     text-color: white;
     font-size: 14;
     text-position: line;
     text-halo-opacity: 1;
     text-halo-radius: 1.8;
+    major-z-index: 11;
 }
-way[highway=cycleway],
-way[highway=path][bicycle=designated] {
+way[highway=cycleway]::cycleway_text,
+way[highway=path][bicycle=designated]::cycleway_text {
     text-halo-color:  bicycle#ff00ff;
+    major-z-index: 11;
 }
 
 /**********/
